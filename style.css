@@ -1,0 +1,289 @@
+/* ---------- Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #FFF8EF, #FFE4D8, #FFD5E8, #FFF2D5);
+    background-size: 400% 400%;
+    animation: bgMove 15s ease infinite;
+}
+
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- Background Elements ---------- */
+#particles, #stars, #flowers {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+#particles { background: radial-gradient(circle at top, #ffffff66 0%, transparent 60%); z-index: -2; }
+#stars { z-index: -1; }
+.star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; animation: twinkle 2s infinite alternate; }
+@keyframes twinkle { from { opacity: .2; transform: scale(.6); } to { opacity: 1; transform: scale(1.5); } }
+.flower { position: fixed; top: -50px; font-size: 22px; animation: fall linear forwards; z-index: 1; }
+@keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 1; } 100% { transform: translateY(120vh) rotate(360deg); opacity: 0; } }
+.heart { position: fixed; bottom: -40px; animation: float linear forwards; z-index: 10; }
+@keyframes float { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg) scale(2); opacity: 0; } }
+
+/* ---------- Stages Manager ---------- */
+.stage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.hidden {
+    display: none !important;
+}
+
+/* ---------- Instruction Banner ---------- */
+.instruction {
+    position: absolute;
+    bottom: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+/* ---------- Target & Envelope หรูสามมิติ (จุดแก้บัคหลัก) ---------- */
+.target-container {
+    perspective: 1400px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.envelope {
+    position: relative;
+    width: 400px;
+    height: 260px;
+    transform-style: preserve-3d;
+    background: linear-gradient(135deg, #4a2f34 0%, #2b181b 100%);
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+}
+
+/* ฝาซองด้านบน */
+.flap {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(180deg, #8b626a 0%, #68454c 60%, #4a2f34 100%);
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
+    transform-origin: top;
+    z-index: 5;
+    border-radius: 12px 12px 0 0;
+    filter: drop-shadow(0 2px 0px #d4af37);
+}
+
+/* ลายเส้นขอบทองในฝาซอง */
+.flap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(3% 2%, 97% 2%, 50% 52%, 50% 55%, 0 0);
+    background: linear-gradient(90deg, #e5c060, #ffeaa7, #b38f37);
+    opacity: 0.8;
+}
+
+/* ตัวซองด้านหน้า */
+.front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, #593940 0%, #452b30 100%);
+    clip-path: polygon(0 40%, 50% 50%, 100% 40%, 100% 100%, 0 100%);
+    z-index: 4;
+    border-radius: 0 0 12px 12px;
+}
+
+/* ปีกประกบซ้ายขวา */
+.envelope::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #66434a 0%, #4d3036 100%);
+    clip-path: polygon(0 0, 49% 50%, 0 100%);
+    z-index: 3;
+}
+.envelope::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(-90deg, #66434a 0%, #4d3036 100%);
+    clip-path: polygon(100% 0, 51% 50%, 100% 100%);
+    z-index: 3;
+}
+
+/* ---------- ตราครั่งสีแดง (Wax Seal) ---------- */
+.wax-seal {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75px;
+    height: 75px;
+    background: radial-gradient(circle, #b91c1c 20%, #7f1d1d 100%);
+    border-radius: 50%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 36px;
+    color: #fca5a5;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    box-shadow: 
+        0 6px 15px rgba(0,0,0,0.5),
+        inset 0 4px 8px rgba(255,255,255,0.25),
+        inset 0 -4px 10px rgba(0,0,0,0.6);
+    border: 3px dashed #991b1b;
+    pointer-events: none; /* กันไม่ให้แย่งคลิกธนู */
+}
+
+/* ริบบิ้นห้อยใต้ตราครั่ง */
+.wax-seal::before {
+    content: ''; position: absolute; bottom: -22px; left: 12px; width: 16px; height: 40px;
+    background: linear-gradient(90deg, #7f1d1d, #b91c1c); transform: rotate(15deg); z-index: -1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+}
+.wax-seal::after {
+    content: ''; position: absolute; bottom: -24px; right: 12px; width: 16px; height: 42px;
+    background: linear-gradient(90deg, #991b1b, #ef4444); transform: rotate(-15deg); z-index: -1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+}
+
+/* ---------- กระดาษจดหมายด้านใน ---------- */
+.letter {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    width: 360px;
+    height: 460px;
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    z-index: 2; /* ซ่อนอยู่หลังฝาและหน้าซองตอนแรก */
+    transform: translateY(0); /* ควบคุมพิกัดเริ่มต้นไว้ด้านใน */
+}
+.photo { width: 100%; max-height: 180px; object-fit: cover; border-radius: 15px; }
+h1 { font-family: "Dancing Script", cursive; color: #ff5b84; font-size: 28px; }
+#message { font-size: 14.5px; text-align: center; line-height: 1.8; white-space: pre-line; color: #555; }
+
+/* ออนแอนิเมชันเปิดฝาซอง */
+.open .flap { transform: rotateX(180deg); z-index: 1; }
+
+/* ---------- คันธนูและลูกศร ---------- */
+.bow-wrapper {
+    position: absolute;
+    bottom: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+.bow { font-size: 65px; user-select: none; }
+.arrow { position: absolute; font-size: 35px; transform: translateY(-20px); user-select: none; }
+
+/* ---------- หน้ากล่องคำถามขอเป็นแฟน (ฉากที่ 2) ---------- */
+.question-box {
+    background: white;
+    border: 4px solid #ff8ea7;
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    max-width: 400px;
+    width: 90%;
+}
+.cat-animation { font-size: 60px; margin-bottom: 15px; }
+.question-box h2 { color: #ff4081; margin-bottom: 30px; font-size: 24px; }
+.quiz-actions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    height: 50px;
+    position: relative;
+}
+#yesBtn, #noBtn {
+    padding: 12px 30px; font-weight: bold; font-size: 18px; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s;
+}
+#yesBtn { background: #ff4081; color: white; box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4); }
+#yesBtn:hover { transform: scale(1.1); background: #ff1744; }
+#noBtn { background: #bdbdbd; color: white; position: absolute; }
+
+/* ---------- เอฟเฟกต์เมาส์และประกายแสง ---------- */
+.sparkle { position: fixed; width: 4px; height: 4px; border-radius: 50%; background: white; box-shadow: 0 0 10px white, 0 0 20px pink; pointer-events: none; animation: spark .8s linear forwards; }
+@keyframes spark { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: translateY(-50px) scale(0); } }
+.cursor { position: fixed; width: 18px; height: 18px; border-radius: 50%; background: #ffb3c7; pointer-events: none; mix-blend-mode: screen; filter: blur(4px); z-index: 99999; }
+
+/* ---------- แกลเลอรี ---------- */
+.buttons { display: flex; gap: 12px; margin-top: auto; width: 100%; justify-content: center; }
+.buttons button { padding: 10px 16px; border: none; border-radius: 12px; cursor: pointer; background: #ff8ea7; color: white; font-weight: bold; transition: .3s; }
+.buttons button:hover { transform: scale(1.05); background: #ff6f91; }
+#gallery { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; flex-direction: column; z-index: 99999; }
+#gallery img { width: 85%; max-width: 500px; height: 400px; object-fit: contain; border-radius: 20px; }
+.galleryButtons { margin-top: 25px; display: flex; gap: 25px; }
+.galleryButtons button { padding: 12px 25px; font-size: 20px; border: none; border-radius: 12px; cursor: pointer; background: white; }
+#closeGallery { position: absolute; top: 25px; right: 35px; font-size: 42px; color: white; cursor: pointer; }
+/* นำโค้ดชุดนี้ไปวางไว้ที่บรรทัดล่างสุดของไฟล์ style.css ได้เลยครับ */
+.buttons { 
+    display: flex; 
+    gap: 12px; 
+    margin-top: auto; 
+    width: 100%; 
+    justify-content: center; 
+    
+    /* ซ่อนปุ่มไว้ตั้งแต่เริ่มต้น เพื่อไม่ให้ลอยทะลุซองจดหมาย */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+/* คัดลอกโค้ดส่วนนี้ไปวางไว้ที่ล่างสุดของไฟล์ style.css ได้เลยครับ */
+
+/* 1. ล็อกให้ตัวจดหมายแอบอยู่ข้างในซองสนิท ไม่ทะลุออกไปด้านนอก */
+.envelope {
+    overflow: hidden; /* ซ่อนส่วนเกินของกระดาษที่แลบออกมาด้านล่าง */
+    transition: overflow 0s linear 0.4s; /* รอให้ฝาซองเปิดก่อนค่อยปล่อยให้กระดาษโผล่ออกมาได้ */
+}
+
+/* 2. เมื่อมีการยิงธนูและซองเริ่มเปิด (.open) ให้ยอมเปิดสวิตช์ปล่อยกระดาษเลื่อนขึ้นมาได้ */
+.envelope.open {
+    overflow: visible;
+}
+
+/* 3. ซ่อนปุ่ม Our Memories และ Music ไว้ตั้งแต่แรกเพื่อความเนียนตา */
+.buttons {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}

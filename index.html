@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Letter & Bow Arrow ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="particles"></div>
+<div id="stars"></div>
+<div id="flowers"></div>
+
+<div id="stage-shooting" class="stage">
+    <div class="target-container">
+        <div class="envelope" id="envelope">
+            <div class="flap"></div>
+            <div class="front"></div>
+            <div class="wax-seal">L</div>
+
+            <div class="letter">
+                <img src="assets/photo1.jpg" class="photo">
+                <h1>To Someone Special ❤️</h1>
+                <p id="message"></p>
+                <div class="buttons">
+                    <button id="galleryBtn">📷 Our Memories</button>
+                    <button id="musicBtn">🎵 Music</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bow-wrapper" id="bowWrapper">
+        <div class="arrow" id="arrow">💘</div>
+        <div class="bow">🏹</div>
+    </div>
+    <div class="instruction">เล็งแล้วคลิกเพื่อยิงหัวใจให้โดนซองจดหมายนะ! ✨</div>
+</div>
+
+<div id="stage-question" class="stage hidden">
+    <div class="question-box">
+        <div class="cat-animation">🐱❤️</div>
+        <h2>Do you want to be my girlfriend? 🥺</h2>
+        <div class="quiz-actions">
+            <button id="yesBtn">YES! 💖</button>
+            <button id="noBtn">NO 😢</button>
+        </div>
+    </div>
+</div>
+
+<div id="gallery">
+    <span id="closeGallery">&times;</span>
+    <img id="galleryImage" src="" alt="Memory">
+    <div class="galleryButtons">
+        <button id="prev">◀</button>
+        <button id="next">▶</button>
+    </div>
+</div>
+
+<audio id="music">
+    <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
