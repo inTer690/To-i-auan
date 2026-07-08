@@ -199,7 +199,7 @@ document.addEventListener("mousemove", (e) => {
 });
 
 /* ---------- แกลเลอรีรูปภาพ ---------- */
-const photos = ["assets/photo1.jpg","assets/photo2.png","assets/photo3.png","assets/photo4.png","assets/photo5.png","assets/photo6.png","assets/photo7.png"];
+const photos = ["assets/photo01.jpg","assets/photo02.png","assets/photo03.png","assets/photo04.png","assets/photo05.png","assets/photo06.png","assets/photo07.png"];
 let current = 0;
 const gallery = document.getElementById("gallery");
 const galleryImage = document.getElementById("galleryImage");
